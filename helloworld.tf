@@ -1,7 +1,7 @@
 //block "lable1" lable2{
-    //identifier = expression
+//identifier = expression
 //}
 output "helloworld" {
-    value = "Hello SmitDarji"
-  
+  value = "Hello SmitDarji"
+
 }
