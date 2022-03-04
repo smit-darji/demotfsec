@@ -1,7 +1,7 @@
 //block "lable1" lable2{
 //identifier = expression
 //}
-output "helloworld" {
+output "hellodfdfworld" {
   value = "Hello SmitDarji"
 
 }
