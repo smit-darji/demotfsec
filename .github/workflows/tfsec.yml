@@ -18,7 +18,7 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v2
       - name: tfsec
-        uses: aquasecurity/tfsec-pr-commenter-action@Master
+        uses: smit-darji/demotfsec@Master
         with:
           github_token: ${{ github.token }}
   directories: # Job that list subdirectories
