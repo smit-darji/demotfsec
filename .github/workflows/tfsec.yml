@@ -20,8 +20,7 @@ jobs:
 
       - name: Debug
         run: echo ${{ env.BRANCH_NAME }}
-      - name: Create pull request
-        uses: devops-infra/action-pull-request@v0.4.2
+      
   tfsec:
     name: Run tfsec sarif report
     runs-on: ubuntu-latest
