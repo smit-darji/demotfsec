@@ -1,45 +1,36 @@
+# Terraform PR Checks for Mono Repos
+# Where there are multiple top level Terraform Directories
+# Such as aws-shared-infrastructure or terraform-cloud-configuration
+
 name: mono_terraform
 on: pull_request
+
 jobs:
   fmt:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.0.11
+          terraform_version: 1.1.2
+
       - name: Terraform Format
         run: terraform fmt -check -diff -recursive
 
-        
-     # extract branch name
-      - name: Extract branch name
-        if: github.event_name != 'pull_request'
-        shell: bash
-        run: echo "name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
-      # extract branch name on pull request
-      - name: Print branch name Destination
-        if: github.event_name == 'pull_request'
-        run: echo "name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
-
-      # print branch name
-      - name: Get branch name oF Source
-        run: echo "git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${{ github.base_ref }}"
-      
   tfsec:
-    name: Run tfsec sarif report
     runs-on: ubuntu-latest
-   
     steps:
       - name: Clone repo
         uses: actions/checkout@v2
-      - name: Run tfsec
-        uses: tfsec/tfsec-sarif-action@9a83b5c3524f825c020e356335855741fd02745f
-       
+
+      - name: tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@main
+        with:
+          github_token: ${{ github.token }}
+
   directories: # Job that list subdirectories
     runs-on: ubuntu-latest
     outputs:
@@ -47,12 +38,15 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v2
-      - name: Get Master branch
-        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${{ github.base_ref }}
+
+      - name: Get main branch
+        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/main:refs/remotes/origin/main
+
       - name: Set Directories
         id: set-dirs # Give it an id to handle to get step outputs in the outputs key above
-        run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/Master | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
+        run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/main | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
         # Define step output named dir base on ls command transformed to JSON thanks to jq
+
   tflint:
     runs-on: ubuntu-latest
     needs: [directories] # Depends on previous job
@@ -62,18 +56,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - uses: terraform-linters/setup-tflint@v1
         name: Setup TFLint
         with:
-          tflint_version: v0.34.1 
-      - name: Copy .tflint.hcl to ${{matrix.dir}}
-        if: ${{ !startsWith(matrix.dir, '.') }}
-        run: cp ".tfsec/.tflint.hcl" "${{matrix.dir}}/.tflint.hcl"
+          tflint_version: v0.34.1
+
       - name: Initialize TFLint
         if: ${{ !startsWith(matrix.dir, '.') }}
         working-directory: ${{matrix.dir}}
-        run: tflint --init
+        run: tflint --init --config=../.tfsec/.tflint.hcl
+
       - name: Run TFLint
         if: ${{ !startsWith(matrix.dir, '.') }}
         working-directory: ${{matrix.dir}}
-        run: tflint -f compact
+        run: tflint -f compact --config=../.tfsec/.tflint.hcl
