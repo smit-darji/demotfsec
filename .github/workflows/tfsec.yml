@@ -23,12 +23,12 @@ jobs:
 
       # extract branch name on pull request
       - name: Print branch name Destination
-        #if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request'
         run: echo "name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
 
       # print branch name
       - name: Get branch name oF Source
-        run: echo "name=BRANCH_NAME::$(echo ${github.base_ref})"
+        run: echo "git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${{ github.base_ref }}"
       
   tfsec:
     name: Run tfsec sarif report
