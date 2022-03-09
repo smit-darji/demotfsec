@@ -48,7 +48,7 @@ jobs:
     needs: [directories] # Depends on previous job
     strategy:
       matrix:
-        dir: ${GITHUB_HEAD_REF} # List matrix strategy from directories dynamically
+        dir: ${{ fromJson(needs.directories.outputs.dir) }} # List matrix strategy from directories dynamically
     steps:
       - name: Checkout
         uses: actions/checkout@v2
