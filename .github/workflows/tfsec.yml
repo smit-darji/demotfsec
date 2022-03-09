@@ -41,7 +41,7 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v2
       - name: Get Master branch
-        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${{ yarn deploy --stage $(git rev-parse --abbrev-ref "${{ github.event.push.ref }} }}
+        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${{ github.event.push.ref }}
       - name: Set Directories
         id: set-dirs # Give it an id to handle to get step outputs in the outputs key above
         run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/Master | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
