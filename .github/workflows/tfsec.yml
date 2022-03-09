@@ -48,7 +48,7 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v2
       - name: Get Master branch
-        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${{ github.base_ref }}
+        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${GITHUB_REF#refs/heads/}
       - name: Set Directories
         id: set-dirs # Give it an id to handle to get step outputs in the outputs key above
         run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/Master | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
