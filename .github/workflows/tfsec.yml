@@ -24,7 +24,7 @@ jobs:
       # extract branch name on pull request
       - name: Print branch name
         if: github.event_name == 'pull_request'
-        run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/Master | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
+        run: echo "name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
 
       # print branch name
       - name: Get branch name
