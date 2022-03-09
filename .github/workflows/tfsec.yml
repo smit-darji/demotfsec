@@ -18,7 +18,7 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v2
       - name: tfsec
-        uses: aquasecurity/tfsec-pr-commenter-action@main
+        uses: aquasecurity/tfsec-pr-commenter-action@Master
         with:
           github_token: ${{ github.token }}
   directories: # Job that list subdirectories
@@ -28,11 +28,11 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v2
-      - name: Get main branch
-        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/main:refs/remotes/origin/main
+      - name: Get Master branch
+        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/Master
       - name: Set Directories
         id: set-dirs # Give it an id to handle to get step outputs in the outputs key above
-        run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/main | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
+        run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/Master | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
         # Define step output named dir base on ls command transformed to JSON thanks to jq
   tflint:
     runs-on: ubuntu-latest
