@@ -28,7 +28,7 @@ jobs:
 
       # print branch name
       - name: Get branch name oF Source
-        run: echo "name=BRANCH_NAME::$(echo $${{ github.base_ref }})"
+        run: echo "name=BRANCH_NAME::$(echo ${github.base_ref})"
       
   tfsec:
     name: Run tfsec sarif report
