@@ -1,42 +1,26 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: tfsec
-
-on:
-  push:
-    branches: [ Master ]
-  pull_request:
-    branches: [ Master ]  
-  schedule:
-    - cron: '31 1 * * 2'
-
+name: mono_terraform
+on: pull_request
 jobs:
-  tfsec:
-    name: Run tfsec sarif report
+  fmt:
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.11
+      - name: Terraform Format
+        run: terraform fmt -check -diff -recursive
+  tfsec:
+    runs-on: ubuntu-latest
     steps:
       - name: Clone repo
         uses: actions/checkout@v2
-
-      - name: Run tfsec
-        uses: tfsec/tfsec-sarif-action@9a83b5c3524f825c020e356335855741fd02745f
+      - name: tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@main
         with:
-          sarif_file: tfsec.sarif         
-
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          # Path to SARIF file relative to the root of the repository
-          sarif_file: tfsec.sarif  
-          
+          github_token: ${{ github.token }}
   directories: # Job that list subdirectories
     runs-on: ubuntu-latest
     outputs:
@@ -44,8 +28,33 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v2
-      - name: Get Master branch
-        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/Master
+      - name: Get main branch
+        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/main:refs/remotes/origin/main
       - name: Set Directories
         id: set-dirs # Give it an id to handle to get step outputs in the outputs key above
-        run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/Master | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
+        run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/main | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
+        # Define step output named dir base on ls command transformed to JSON thanks to jq
+  tflint:
+    runs-on: ubuntu-latest
+    needs: [directories] # Depends on previous job
+    strategy:
+      matrix:
+        dir: ${{ fromJson(needs.directories.outputs.dir) }} # List matrix strategy from directories dynamically
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: terraform-linters/setup-tflint@v1
+        name: Setup TFLint
+        with:
+          tflint_version: v0.34.1 
+      - name: Copy .tflint.hcl to ${{matrix.dir}}
+        if: ${{ !startsWith(matrix.dir, '.') }}
+        run: cp ".tfsec/.tflint.hcl" "${{matrix.dir}}/.tflint.hcl"
+      - name: Initialize TFLint
+        if: ${{ !startsWith(matrix.dir, '.') }}
+        working-directory: ${{matrix.dir}}
+        run: tflint --init
+      - name: Run TFLint
+        if: ${{ !startsWith(matrix.dir, '.') }}
+        working-directory: ${{matrix.dir}}
+        run: tflint -f compact
