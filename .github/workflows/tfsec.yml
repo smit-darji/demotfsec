@@ -18,13 +18,13 @@ jobs:
       - name: Extract branch name
         if: github.event_name != 'pull_request'
         shell: bash
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
+        run: echo "name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
 
       # extract branch name on pull request
       - name: Print branch name
         if: github.event_name == 'pull_request'
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
+        run: echo "name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
 
       # print branch name
       - name: Get branch name
@@ -48,7 +48,7 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v2
       - name: Get Master branch
-        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${GITHUB_REF#refs/heads/}
+        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${{ github.base_ref }}
       - name: Set Directories
         id: set-dirs # Give it an id to handle to get step outputs in the outputs key above
         run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/Master | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
