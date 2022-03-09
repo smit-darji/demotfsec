@@ -22,6 +22,22 @@ jobs:
         if: github.event_name != 'pull_request'
         shell: bash
         run: 'yarn deploy --stage $(git rev-parse --abbrev-ref "${{ github.event.push.ref }}")'   
+        
+     # extract branch name
+      - name: Extract branch name
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      # extract branch name on pull request
+      - name: Print branch name
+        if: github.event_name == 'pull_request'
+        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
+
+      # print branch name
+      - name: Get branch name
+        run: echo 'The branch name is' $BRANCH_NAME
       
   tfsec:
     name: Run tfsec sarif report
