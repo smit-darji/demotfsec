@@ -36,3 +36,16 @@ jobs:
         with:
           # Path to SARIF file relative to the root of the repository
           sarif_file: tfsec.sarif  
+          
+  directories: # Job that list subdirectories
+    runs-on: ubuntu-latest
+    outputs:
+      dir: ${{ steps.set-dirs.outputs.dir }} # generate output name dir by using inner step output
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v2
+      - name: Get main branch
+        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/main:refs/remotes/origin/main
+      - name: Set Directories
+        id: set-dirs # Give it an id to handle to get step outputs in the outputs key above
+        run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/main | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
