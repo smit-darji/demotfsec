@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "code": "IH002",
+      "description": "Custom check to verify the AWS provider has the default 'Component' tag set for all supported resources.",
+      "impact": "By not having the Component tag, we can't track resources properly",
+      "resolution": "Add the Component tag to 'default_tags' in the AWS provider",
+      "requiredTypes": [
+        "provider"
+      ],
+      "requiredLabels": [
+        "aws"
+      ],
+      "severity": "ERROR",
+      "matchSpec": {
+        "name": "default_tags",
+        "action": "isPresent",
+        "subMatch": {
+          "name": "tags",
+          "action": "contains",
+          "value": "Component"
+        }
+      },
+      "errorMessage": "The Component tag in the 'default_tags' configuration of the AWS provider was missing.",
+      "relatedLinks": [
+        "https://github.com/invitation-homes/technology-decisions/blob/main/0021-aws-tagging-standards.md",
+        "https://github.com/invitation-homes/technology-decisions/blob/main/0044-terraform-development-standards.md#default-tagging-in-the-aws-provider",
+        "https://registry.terraform.io/providers/hashicorp/aws/latest/docs#default_tags"
+      ]
+    }
+  ]
+}

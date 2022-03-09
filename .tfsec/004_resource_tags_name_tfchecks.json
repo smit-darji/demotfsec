@@ -1,0 +1,28 @@
+{
+  "checks": [
+    {
+      "code": "IH004",
+      "description": "Custom check to ensure the Name tag is applied to AWS resources",
+      "impact": "By not having the Name tag, we can't track resources properly",
+      "resolution": "Add the Name tag",
+      "requiredTypes": [
+        "resource"
+      ],
+      "requiredLabels": [
+        "aws_instance",
+        "aws_route_table",
+        "aws_subnet"
+      ],
+      "severity": "ERROR",
+      "matchSpec": {
+        "name": "tags",
+        "action": "contains",
+        "value": "Name"
+      },
+      "errorMessage": "The required Name tag was missing",
+      "relatedLinks": [
+        "https://github.com/invitation-homes/technology-decisions/blob/main/0021-aws-tagging-standards.md"
+      ]
+    }
+  ]
+}
