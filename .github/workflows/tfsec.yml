@@ -20,6 +20,8 @@ jobs:
 
       - name: Debug
         run: echo ${{ env.BRANCH_NAME }}
+      - name: Create pull request
+        uses: devops-infra/action-pull-request@v0.4.2
   tfsec:
     name: Run tfsec sarif report
     runs-on: ubuntu-latest
@@ -38,7 +40,7 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v2
       - name: Get Master branch
-        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/Master
+        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${{ steps.myref.outputs.branch }}
       - name: Set Directories
         id: set-dirs # Give it an id to handle to get step outputs in the outputs key above
         run: echo "::set-output name=dir::$(git diff --name-only HEAD origin/Master | xargs -L1 dirname | uniq | jq -R -s -c 'split("\n")[:-1]')"
