@@ -12,16 +12,7 @@ jobs:
           terraform_version: 1.0.11
       - name: Terraform Format
         run: terraform fmt -check -diff -recursive
-        
-      - name: Get branch name (pull request Source)
-        if: github.event_name == 'pull_request'
-        shell: bash
-        run: 'yarn deploy --stage $(git rev-parse --abbrev-ref "${{ github.event.push.ref }}")'
-        
-      - name: Get branch name (merge)
-        if: github.event_name != 'pull_request'
-        shell: bash
-        run: 'yarn deploy --stage $(git rev-parse --abbrev-ref "${{ github.event.push.ref }}")'   
+
         
      # extract branch name
       - name: Extract branch name
