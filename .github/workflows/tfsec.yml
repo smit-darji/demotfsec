@@ -12,15 +12,6 @@ jobs:
           terraform_version: 1.0.11
       - name: Terraform Format
         run: terraform fmt -check -diff -recursive
-  tfsec:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v2
-      - name: tfsec
-        uses: smit-darji/demotfsec@Master
-        with:
-          github_token: ${{ github.token }}
   directories: # Job that list subdirectories
     runs-on: ubuntu-latest
     outputs:
