@@ -1,0 +1,26 @@
+{
+  "checks": [
+    {
+      "code": "IH005",
+      "description": "Custom check to ensure the DNSName tag is applied to EC2 instance",
+      "impact": "By not having the DNSName tag, we can't easily determine the FQDN of the instance",
+      "resolution": "Add the DNSName tag to the EC2 instance",
+      "requiredTypes": [
+        "resource"
+      ],
+      "requiredLabels": [
+        "aws_instance"
+      ],
+      "severity": "ERROR",
+      "matchSpec": {
+        "name": "tags",
+        "action": "contains",
+        "value": "DNSName"
+      },
+      "errorMessage": "The required DNSName tag was missing",
+      "relatedLinks": [
+        "https://github.com/invitation-homes/technology-decisions/blob/main/0021-aws-tagging-standards.md"
+      ]
+    }
+  ]
+}
