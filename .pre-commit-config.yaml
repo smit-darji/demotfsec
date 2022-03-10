@@ -5,13 +5,14 @@
    # - id: tflint
 repos:
 -   repo: https://github.com/smit-darji/demotfsec.git
-    rev: Master
+    rev: v0.0.1 
     hooks:
+    -   id: check-json
+    -   id: check-yaml
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
-    -   id: check-docstring-first
-    -   id: check-yaml
-    -   id: debug-statements
-    -   id: double-quote-string-fixer
-    -   id: name-tests-test
-    -   id: requirements-txt-fixer
+-   repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.10.0
+    hooks:
+    -   id: eslint
+        args: [--fix]
