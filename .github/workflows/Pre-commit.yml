@@ -8,7 +8,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: |
-        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/${{ github.base_ref }}"
     - name: Get changed files
       id: file_changes
       run: |
