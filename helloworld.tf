@@ -1,4 +1,4 @@
-output "hellodfdfworld" {
+output "helloworld" {
   value = "Hello SmitDarji"
 
 }
