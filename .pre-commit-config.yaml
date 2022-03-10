@@ -1,7 +1,5 @@
 repos:
-  - repo: https://github.com/smit-darji/demotfsec.git
-    rev: v2.1.0
-    hooks:
-      - id: smit-darji
-        language_version: python3
-        stages: [push]
+- repo: https://github.com/smit-darji/demotfsec.git
+  rev: v0.0.1 
+  hooks:
+    - id: tflint
