@@ -1,34 +1,6 @@
 name: mono_terraform
 on: pull_request
 jobs:
-    pre-commit:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-        - name: Setup Terraform
-          uses: hashicorp/setup-terraform@v1
-          with:
-            terraform_version: 1.0.11
-        - name: Terraform Format
-          run: terraform fmt -check -diff -recursive
-
-
-       # extract branch name
-        - name: Extract branch name
-          if: github.event_name != 'pull_request'
-          shell: bash
-          run: echo "name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
-          id: extract_branch
-
-        # extract branch name on pull request
-        - name: Print branch name Destination
-          if: github.event_name == 'pull_request'
-          run: echo "name=BRANCH_NAME::$(echo ${GITHUB_HEAD_REF})"
-
-        # print branch name
-        - name: Get branch name oF Source
-          run: echo "git fetch --no-tags --prune --depth=1 origin +refs/heads/Master:refs/remotes/origin/${{ github.base_ref }}"
     fmt:
       runs-on: ubuntu-latest
       steps:
