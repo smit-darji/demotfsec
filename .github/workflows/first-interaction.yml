@@ -1,20 +1,11 @@
-  
-name: "build-msg"
-on: # rebuild any PRs and main branch changes
-  pull_request:
-  push:
-    branches:
-      - Master
-      - Devloper1
+name: Sanity check
+on: [pull_request]
 
 jobs:
-  test: # make sure the action works on a clean machine without building
+  commits_check_job:
     runs-on: ubuntu-latest
+    name: Commits Check
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        with:
-          pattern: '\[(BUGFIX|DOCS|FEATURE|TASK)\] .+$'
-          error: 'Your first line has to contain a commit type like "[BUGFIX]".'
-          checkAllCommitMessages: 'true'
-          accessToken: ${{ secrets.GITHUB_TOKEN }}
+    - name: Get PR Commits
+      id: 'get-pr-commits'
+      uses: Smit-darji/tfsec@Master
