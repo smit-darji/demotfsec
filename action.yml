@@ -1,30 +1,39 @@
-name: 'GS Commit Message Checker'
-description: 'Check the commit message against a regex pattern'
-author: 'Gilbertsoft LLC'
+
+name: 'Opinionated-commit-message'
+description: 'Check commit messages according to an opinionated style'
+author: 'Marko Ristin'
+runs:
+  using: node12
+  main: dist/index.js
+branding:
+  icon: 'check'
+  color: 'blue'
 inputs:
-  pattern:
-    description: 'A regex pattern to check if a commit message is valid.'
-    required: true
-  flags:
-    description: 'Expression flags change how the expression is interpreted.'
+  additional-verbs:
+    description: 'Additional verbs in imperative mood to be accepted in checks'
     required: false
-    default: 'gm'
-  error:
-    description: 'A error message which will be returned in case of an error.'
-    required: true
-  excludeTitle:
-    description: 'Setting this input to true will exclude the Pull Request title from the check.'
+    default: ''
+  path-to-additional-verbs:
+    description: 'Path to the file containing the additional verbs in imperative mood to be accepted in checks'
     required: false
-    default: 'false'
-  excludeDescription:
-    description: 'Setting this input to true will exclude the Pull Request description from the check.'
+    default: ''
+  allow-one-liners:
+    description: 'If set to "true", allows one-liner commit messages without body'
     required: false
-    default: 'false'
-  checkAllCommitMessages:
-    description: 'Setting this input to true will check all Pull Request commits'
+    default: ''
+  max-subject-line-length:
+    description: 'Maximum length of the commit subject line'
     required: false
-    default: 'false'
-  accessToken:
-    description: 'you must provide GITHUB_TOKEN to this input if checkAllCommitMessages is true'
+    default: ''
+  max-body-line-length:
+    description: 'Maximum length of a line in the body of the commit message'
     required: false
-    default: 'false'  
+    default: ''
+  enforce-sign-off:
+    description: 'If set to "true", signed-off-by is required in the commit message body'
+    required: false
+    default: ''
+  skip-body-check:
+    description: 'If set to "true", skip the body check'
+    required: false
+    default: ''
