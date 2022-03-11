@@ -6,9 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Commits Check
     steps:
+        - name: Checkout
+        - uses: actions/checkout@v2
+        - name: Get PR Commits  
+        - run: ./scripts/commit-filter-check.sh
     # - name: Get PR Commits
     #   id: 'get-pr-commits'
     #   uses: Smit-darji/demotfsec@Master     
-    - checkout      
-    - run: ./scripts/commit-filter-check.sh
+
 
