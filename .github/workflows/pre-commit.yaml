@@ -1,0 +1,15 @@
+name: pre-commit
+
+on:
+  pull_request:
+  push:
+    branches: [Master]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkOut
+      uses: actions/checkout@v2
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1

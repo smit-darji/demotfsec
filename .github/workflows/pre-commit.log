@@ -1,0 +1,54 @@
+An error has occurred: InvalidManifestError: 
+=====> /home/dev1005/snap/pre-commit/common/.cache/pre-commit/repoe49ivmq0/.pre-commit-hooks.yaml does not exist
+Traceback (most recent call last):
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/cfgv.py", line 46, in reraise_as
+    yield
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/cfgv.py", line 413, in load_from_filename
+    raise ValidationError('{} does not exist'.format(filename))
+cfgv.ValidationError: 
+=====> /home/dev1005/snap/pre-commit/common/.cache/pre-commit/repoe49ivmq0/.pre-commit-hooks.yaml does not exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/error_handler.py", line 46, in error_handler
+    yield
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/main.py", line 303, in main
+    'Command {} failed to exit with a returncode'.format(args.command),
+  File "/snap/pre-commit/51/usr/lib/python3.5/contextlib.py", line 77, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/logging_handler.py", line 44, in logging_handler
+    yield
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/main.py", line 292, in main
+    return run(args.config, store, args)
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/commands/run.py", line 287, in run
+    return _run_hooks(config, hooks, args, environ)
+  File "/snap/pre-commit/51/usr/lib/python3.5/contextlib.py", line 77, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/util.py", line 46, in noop_context
+    yield
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/commands/run.py", line 276, in run
+    for hook in all_hooks(config, store)
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/repository.py", line 221, in all_hooks
+    for repo in root_config['repos']
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/repository.py", line 222, in <genexpr>
+    for hook in _repository_hooks(repo, store, root_config)
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/repository.py", line 197, in _repository_hooks
+    return _cloned_repository_hooks(repo_config, store, root_config)
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/pre_commit/repository.py", line 167, in _cloned_repository_hooks
+    by_id = {hook['id']: hook for hook in load_manifest(manifest_path)}
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/cfgv.py", line 425, in load_from_filename
+    return apply_defaults(data, schema)
+  File "/snap/pre-commit/51/usr/lib/python3.5/contextlib.py", line 77, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/cfgv.py", line 49, in reraise_as
+    six.reraise(tp, tp(e), tb)
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/six.py", line 692, in reraise
+    raise value.with_traceback(tb)
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/cfgv.py", line 46, in reraise_as
+    yield
+  File "/snap/pre-commit/51/lib/python3.5/site-packages/cfgv.py", line 413, in load_from_filename
+    raise ValidationError('{} does not exist'.format(filename))
+pre_commit.clientlib.InvalidManifestError: 
+=====> /home/dev1005/snap/pre-commit/common/.cache/pre-commit/repoe49ivmq0/.pre-commit-hooks.yaml does not exist
+
