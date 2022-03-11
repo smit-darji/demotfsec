@@ -1,6 +1,5 @@
-
   
-name: "build-test"
+name: "build-msg"
 on: # rebuild any PRs and main branch changes
   pull_request:
   push:
@@ -9,27 +8,13 @@ on: # rebuild any PRs and main branch changes
       - Devloper1
 
 jobs:
-  build: # make sure build/ci work properly
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install
-        run: |
-          npm install
-      - name: Build and Test
-        run: |
-          npm run all
-      - name: Verify dist files
-        run: |
-          git diff
-          # This fails when dist files are not up to date
-          test -z "$(git diff --shortstat 2> /dev/null | tail -n1)"
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./
+      - uses: actions/checkout@v1
+      - uses: ./action.yaml
         with:
           pattern: '\[(BUGFIX|DOCS|FEATURE|TASK)\] .+$'
           error: 'Your first line has to contain a commit type like "[BUGFIX]".'
           checkAllCommitMessages: 'true'
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
