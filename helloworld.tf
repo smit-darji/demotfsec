@@ -1,4 +1,4 @@
 output "hellodfdfworld" {
-  value = "Hello SmitDarjizcsfdsffddsfdfd"
+  value = "Hello SmitDarjizcsfdsffddsfdfdgit sta"
 
 }
