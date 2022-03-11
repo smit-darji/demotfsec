@@ -1,15 +1,15 @@
-name: Sanity check
-on: [pull_request]
+name: CodeNotary
+
+on: [push]
 
 jobs:
-  commits_check_job:
+  check:
+
     runs-on: ubuntu-latest
-    name: Commits Check
-    steps:      
-      - uses: actions/checkout@v2
-      - run: ./scripts/commit-filter-check.sh
-    # - name: Get PR Commits
-    #   id: 'get-pr-commits'
-    #   uses: Smit-darji/demotfsec@Master     
-
-
+    
+    steps:
+     - name: Checkout
+       uses: actions/checkout@Master
+     
+     - name: Verify
+       uses: vchain-us/verify-action@Master
