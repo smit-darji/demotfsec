@@ -14,4 +14,7 @@ inputs:
     default: ''
 outputs:
   commits:
+    name: Build and test
+    runs-on: ubuntu-latest
     description: 'commits in pr'
+    
