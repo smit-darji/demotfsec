@@ -1,0 +1,9 @@
+name: test
+on:
+  pull_request:
+    branches:
+    - Master
+jobs:
+    my_job:
+      name: deploy to staging
+      runs-on: ubuntu-latest
