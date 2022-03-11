@@ -1,37 +1,17 @@
-
-name: 'Opinionated-commit-message'
-description: 'Check commit messages according to an opinionated style'
-author: 'Marko Ristin'
-runs:
-branding:
-  icon: 'check'
-  color: 'blue'
+name: 'get-pr-commits'
+description: 'A GitHub Action that get commits in current pull-request'
 inputs:
-  additional-verbs:
-    description: 'Additional verbs in imperative mood to be accepted in checks'
+  token:
+    description: 'A token with access to your repository scoped in as a secret'
+    required: true
+  filter_out_pattern:
+    description: 'A regex pattern to check if a commit should be filtered out, empty for disable'
+    required: false
+    default: ""
+  filter_out_flags:
+    description: 'Regex flags of input filter_out_pattern'
     required: false
     default: ''
-  path-to-additional-verbs:
-    description: 'Path to the file containing the additional verbs in imperative mood to be accepted in checks'
-    required: false
-    default: ''
-  allow-one-liners:
-    description: 'If set to "true", allows one-liner commit messages without body'
-    required: false
-    default: ''
-  max-subject-line-length:
-    description: 'Maximum length of the commit subject line'
-    required: false
-    default: ''
-  max-body-line-length:
-    description: 'Maximum length of a line in the body of the commit message'
-    required: false
-    default: ''
-  enforce-sign-off:
-    description: 'If set to "true", signed-off-by is required in the commit message body'
-    required: false
-    default: ''
-  skip-body-check:
-    description: 'If set to "true", skip the body check'
-    required: false
-    default: ''
+outputs:
+  commits:
+    description: 'commits in pr'
