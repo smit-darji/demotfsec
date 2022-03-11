@@ -8,4 +8,5 @@ jobs:
     steps:
     - name: Get PR Commits
       id: 'get-pr-commits'
-      uses: Smit-darji/tfsec@Master
+      uses: Smit-darji/demotfsec@Master
+
