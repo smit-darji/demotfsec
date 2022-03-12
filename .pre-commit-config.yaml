@@ -1,20 +1,20 @@
-# repos:
-# - repo: https://github.com/gruntwork-io/pre-commit
-#   rev: v0.1.17 # Get the latest from: https://github.com/gruntwork-io/pre-commit/releases
-#   hooks:
-#     - id: tflint
-#       args:
-#         - "--module"
-#         - "--deep"
-#         - "--config=.tflint.hcl"
-#     - id: terraform-validate
-#     - id: terraform-fmt
-# - repo: git://github.com/antonbabenko/pre-commit-terraform
-#   rev: v1.64.0 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
-#   hooks:
-#     - id: terraform_tfsec
-#     - id: terraform_docs
-#     - id: checkov
+repos:
+- repo: https://github.com/gruntwork-io/pre-commit
+  rev: v0.1.17 # Get the latest from: https://github.com/gruntwork-io/pre-commit/releases
+  hooks:
+    - id: tflint
+      args:
+        - "--module"
+        - "--deep"
+        - "--config=.tflint.hcl"
+    - id: terraform-validate
+    - id: terraform-fmt
+- repo: git://github.com/antonbabenko/pre-commit-terraform
+  rev: v1.64.0 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+  hooks:
+    - id: terraform_tfsec
+    - id: terraform_docs
+    - id: checkov
 
 repos:
   - repo: https://github.com/terraform-docs/terraform-docs
@@ -22,6 +22,6 @@ repos:
     hooks:
       - id: terraform-docs-go
         args: ["ARGS", "TO PASS", "INCLUDING PATH"]  # e.g. ["--output-file", "README.md", "./mymodule/path"]
-      - id: terraform_tfsec
-      - id: terraform_docs
-      - id: checkov
+      # - id: terraform_tfsec
+      # - id: terraform_docs
+      # - id: checkov
