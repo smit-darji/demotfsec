@@ -33,11 +33,11 @@ repos:
       - id: terraform_tfsec
       - id: terraform_docs
       - id: checkov
-  - repo: https://github.com/terraform-docs/terraform-docs
-    rev: "<VERSION, TAG, OR SHA TO USE>"             # e.g. "v0.11.2"
-    hooks:
-      - id: terraform-docs-go
-        args: ["ARGS", "TO PASS", "INCLUDING PATH"]  # e.g. ["--output-file", "README.md", "./mymodule/path"]
+  # - repo: https://github.com/terraform-docs/terraform-docs
+  #   rev: "<VERSION, TAG, OR SHA TO USE>"             # e.g. "v0.11.2"
+  #   hooks:
+  #     - id: terraform-docs-go
+  #       args: ["ARGS", "TO PASS", "INCLUDING PATH"]  # e.g. ["--output-file", "README.md", "./mymodule/path"]
       # - id: terraform_tfsec
       # - id: terraform_docs
       # - id: checkov
