@@ -22,3 +22,6 @@ repos:
     hooks:
       - id: terraform-docs-go
         args: ["ARGS", "TO PASS", "INCLUDING PATH"]  # e.g. ["--output-file", "README.md", "./mymodule/path"]
+      - id: terraform_tfsec
+      - id: terraform_docs
+      - id: checkov
