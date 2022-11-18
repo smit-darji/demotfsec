@@ -1,0 +1,20 @@
+name: 'Tableau'
+
+on:
+  push:
+    branches:
+    - Master
+
+jobs:
+  TableauBackup:
+    name: 'Tableau Backup'
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Ping Ip/Address
+      run: |
+        echo "hello"
